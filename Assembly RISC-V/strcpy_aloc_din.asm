@@ -12,7 +12,7 @@ main:	la a0, str_src
 	jal strcpy
 	#Printa a string copiada
 	addi a7, zero, 4
-	la a0, str_dst
+	lw a0, str_dst
 	ecall
 	#Fim do programa
 	addi a7, zero, 10
@@ -30,14 +30,11 @@ count_bytes_loop:
 	
 	#Alocamos a memória necessária 
 	addi t1, a0, 0	  #Copia o endereço de str_src para t1
-	addi a7, zero, 9	  #Serviço 9 do ecall
+	addi a7, zero, 9	  #Serviço 9 do ecall: alocar memoria heap
 	addi a0, t0, 0    #Salva em a0 o número de bytes a serem alocados
 	ecall
 	addi a1, a0, 0    #Salva o endereço da memoria alocada em a1
-	#Faz com que str_dst aponte para o primeiro byte de memoria alocado
-	la t3, str_dst
-	sw a0, 0(t3)     
-	
+
 	#Copiamos cada byte, até que t2 seja igual a 0
 strcpy_loop:
 	lb t2, 0(t1)
@@ -45,6 +42,9 @@ strcpy_loop:
 	addi t1, t1, 1
 	addi a1, a1, 1
 	bne t2, zero, strcpy_loop
+	#Faz com que str_dst aponte para o primeiro byte de memoria alocado
+	la t3, str_dst
+	sw a0, (t3)
 	jr ra
 	
 	
