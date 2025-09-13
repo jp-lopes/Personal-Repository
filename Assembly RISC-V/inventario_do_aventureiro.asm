@@ -49,8 +49,8 @@ main_loop:	#Printar as opções do aventureiro:
 		beq a0, s3, ListarInventario_3
 		beq a0, s4, BuscarItem_4
 		beq a0, s5, Sair_5
-		#Printar mensagem de erro:
-		addi a7,zero,4
+		#Se não entrar em nenhuma opção, printa mensagem de erro:
+		addi a7, zero, 4
 		la a0, str_OpcaoInv
 		ecall
 		#Voltar pro começo do loop:
@@ -107,6 +107,7 @@ erro_remocao:	#Printar mensagem de mochila vazia:
 		addi a7, zero, 4
 		la a0, str_Vazia
 		ecall
+		#Voltar para o começo do programa:
 		j main_loop
 		
 #Opção 3: Listar Inventário
@@ -118,8 +119,9 @@ ListarInventario_3:
 		addi a7, zero, 4
 		la a0, str_Listar
 		ecall
+
 loop_opc3:	beq t0, zero, fim_loop_opc3	#se t0=0 o loop termina
-		#Carregar o ID em a0 e printa o resultado
+		#Carregar o ID em a0 e printar 
 		lw a0, 0(t0)			
 		addi a7, zero, 1
 		ecall
@@ -127,16 +129,18 @@ loop_opc3:	beq t0, zero, fim_loop_opc3	#se t0=0 o loop termina
 		addi a0, zero, '\n'
 		addi a7, zero, 11
 		ecall
-		#Vai para o próximo nó da lista
+		#Ir para o próximo nó da lista
 		lw t0, 4(t0)
 		j loop_opc3
 
-fim_loop_opc3:	j main_loop
+fim_loop_opc3:	#Voltar para o começo do programa:
+		j main_loop
 
 erro_listar:	#Printar mensagem de mochila vazia:
 		addi a7, zero, 4
 		la a0, str_Vazia
 		ecall
+		#Voltar para o começo do programa:
 		j main_loop
 
 #Opção 4: Buscar item
@@ -148,25 +152,28 @@ BuscarItem_4:
 		#Ler um ID do teclado:
 		addi a7, zero, 5
 		ecall
-		#Salvar o ID lido em s0:
-		add s0, zero, a0
+		#Salvar o ID a ser buscado em s0:
+		add s0, zero, a0		
 		#Carregar em t0 o começo da lista:
 		lw t0, lista
-loop_busca:	beq t0, zero, fim_loop_busca	
-		lw t1, 0(t0)
-		beq t1, s0, encontrado
-		lw t0, 4(t0)
+		
+loop_busca:	beq t0, zero, fim_loop_busca	#se t0==0, o item não foi encontrado
+		lw t1, 0(t0)			#carrega em t1 o ID do item atual
+		beq t1, s0, encontrado		#se t1==s0, desvia do loop
+		lw t0, 4(t0)			#caso contrário, vai para o próximo ID da lista
 		j loop_busca
 encontrado:	#Printar mensagem de encontrado:
 		addi a7,zero,4
 		la a0, str_Encontrado
 		ecall
+		#Voltar para o começo do programa:
 		j main_loop
-		
+
 fim_loop_busca: #Printar mensagem de não encontrado:
 		addi a7,zero,4
 		la a0, str_nEncontrado
 		ecall
+		#Voltar para o começo do programa:
 		j main_loop
 
 #Opção 5: Sair do jogo
@@ -174,6 +181,7 @@ Sair_5:
 		#Printar mensagem de adeus:
 		addi a7, zero, 4
 		la a0, str_Sair
-		ecall	
+		ecall
+		#Chamar serviço 10 (Exit):
 		addi a7, zero, 10
 		ecall
