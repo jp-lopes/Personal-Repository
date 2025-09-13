@@ -26,7 +26,8 @@ lista:		.word 0		#Ponteiro para o início da lista, iniciado em 0
 		.align 2		
 		.globl main
 
-main:		#Definições:
+main:		
+		#Definições:
 		addi s1, zero, 1
 		addi s2, zero, 2
 		addi s3, zero, 3
@@ -36,7 +37,8 @@ main:		#Definições:
 		addi a7, zero, 4
 		la a0, str_BemVindo
 		ecall
-main_loop:	#Printar as opções do aventureiro:
+main_loop:	
+		#Printar as opções do aventureiro:
 		addi a7, zero, 4
 		la a0, str_Opcoes
 		ecall
@@ -103,7 +105,8 @@ RemoverItem_2:
 		#Voltar para o começo do programa:
 		j main_loop
 		
-erro_remocao:	#Printar mensagem de mochila vazia:
+erro_remocao:	
+		#Printar mensagem de mochila vazia:
 		addi a7, zero, 4
 		la a0, str_Vazia
 		ecall
@@ -120,7 +123,8 @@ ListarInventario_3:
 		la a0, str_Listar
 		ecall
 
-loop_opc3:	beq t0, zero, fim_loop_opc3	#se t0=0 o loop termina
+loop_opc3:	
+		beq t0, zero, fim_loop_opc3	#se t0=0 o loop termina
 		#Carregar o ID em a0 e printar 
 		lw a0, 0(t0)			
 		addi a7, zero, 1
@@ -133,10 +137,12 @@ loop_opc3:	beq t0, zero, fim_loop_opc3	#se t0=0 o loop termina
 		lw t0, 4(t0)
 		j loop_opc3
 
-fim_loop_opc3:	#Voltar para o começo do programa:
+fim_loop_opc3:	
+		#Voltar para o começo do programa:
 		j main_loop
 
-erro_listar:	#Printar mensagem de mochila vazia:
+erro_listar:	
+		#Printar mensagem de mochila vazia:
 		addi a7, zero, 4
 		la a0, str_Vazia
 		ecall
@@ -156,21 +162,24 @@ BuscarItem_4:
 		add s0, zero, a0		
 		#Carregar em t0 o começo da lista:
 		lw t0, lista
-		
-loop_busca:	beq t0, zero, fim_loop_busca	#se t0==0, o item não foi encontrado
+
+loop_busca:	
+		beq t0, zero, fim_loop_busca	#se t0==0, o item não foi encontrado
 		lw t1, 0(t0)			#carrega em t1 o ID do item atual
 		beq t1, s0, encontrado		#se t1==s0, desvia do loop
 		lw t0, 4(t0)			#caso contrário, vai para o próximo ID da lista
 		j loop_busca
 		
-fim_loop_busca: #Printar mensagem de não encontrado:
+fim_loop_busca: 
+		#Printar mensagem de não encontrado:
 		addi a7,zero,4
 		la a0, str_nEncontrado
 		ecall
 		#Voltar para o começo do programa:
 		j main_loop
 		
-encontrado:	#Printar mensagem de encontrado:
+encontrado:	
+		#Printar mensagem de encontrado:
 		addi a7,zero,4
 		la a0, str_Encontrado
 		ecall

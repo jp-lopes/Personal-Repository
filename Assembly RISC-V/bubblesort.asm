@@ -10,7 +10,8 @@ array:		.word 10,9,8,7,4,2,45,65,1,13,13,5
 		.align 2
 		.globl main
 		
-main:		#Prints "before" string
+main:		
+		#Prints "before" string
 		addi a7, zero, 4
 		la a0, str_before
 		ecall
@@ -33,10 +34,12 @@ main:		#Prints "before" string
 		ecall
 	
 #Prints the array	
-print_array:	la t0, array			#t0 = the array adress
+print_array:	
+		la t0, array			#t0 = the array adress
 		addi t2, zero, 12		#t2 = the array length 
 
-print_loop:	#Prints the array element
+print_loop:	
+		#Prints the array element
 		lw t1, 0(t0)
 		addi a7, zero, 1		
 		add a0, zero, t1
@@ -52,29 +55,37 @@ print_loop:	#Prints the array element
 
 		j print_loop
 
-end_print_loop:	jr ra
+end_print_loop:	
+		jr ra
 	
 #BubbleSort
-bubblesort:	addi t3, zero, 11		#t3 = (array length - 1)
+bubblesort:	
+		addi t3, zero, 11		#t3 = (array length - 1)
 		
-bs_main_loop:	beq t3, zero, end_bubblesort
+bs_main_loop:	
+		beq t3, zero, end_bubblesort
 		addi t4, zero, 11		#t4 = (array length - 1)
 		la t0, array			#t0 = the array adress
 		
-bs_sec_loop:	beq t4, zero, end_main_loop 
+bs_sec_loop:	
+		beq t4, zero, end_main_loop 
 		lw t1, 0(t0)			#t1 = array{i]
 		lw t2, 4(t0)			#t2 = array[i+1]
 		blt t2,t1,swap			#if t2<t1: go to swap
 		j end_sec_loop			#else: go to end_sec_loop
 
-swap:		sw t2, 0(t0)
+swap:		
+		sw t2, 0(t0)
 		sw t1, 4(t0)
 		
-end_sec_loop:	addi t0, t0, 4
+end_sec_loop:	
+		addi t0, t0, 4
 		addi t4, t4, -1
 		j bs_sec_loop
 
-end_main_loop:	addi t3, t3, -1
+end_main_loop:	
+		addi t3, t3, -1
 		j bs_main_loop
 
-end_bubblesort:	jr ra
+end_bubblesort:	
+		jr ra
