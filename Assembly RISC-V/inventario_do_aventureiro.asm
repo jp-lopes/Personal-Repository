@@ -162,16 +162,17 @@ loop_busca:	beq t0, zero, fim_loop_busca	#se t0==0, o item não foi encontrado
 		beq t1, s0, encontrado		#se t1==s0, desvia do loop
 		lw t0, 4(t0)			#caso contrário, vai para o próximo ID da lista
 		j loop_busca
-encontrado:	#Printar mensagem de encontrado:
-		addi a7,zero,4
-		la a0, str_Encontrado
-		ecall
-		#Voltar para o começo do programa:
-		j main_loop
-
+		
 fim_loop_busca: #Printar mensagem de não encontrado:
 		addi a7,zero,4
 		la a0, str_nEncontrado
+		ecall
+		#Voltar para o começo do programa:
+		j main_loop
+		
+encontrado:	#Printar mensagem de encontrado:
+		addi a7,zero,4
+		la a0, str_Encontrado
 		ecall
 		#Voltar para o começo do programa:
 		j main_loop
