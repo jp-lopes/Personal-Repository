@@ -63,7 +63,7 @@ loop2_strcat:
 		j loop2_strcat
 
 fim_loop2:
-		sb zero, 2(t0)			#salva o '\0' no último byte da nova string
+		sb zero, 0(t0)			#salva o '\0' no último byte da nova string
 		add a0, zero, s4		#salva em a0 a nova string
 		lw ra, 0(sp)			#desempilha ra
 		addi sp, sp, 4			
